@@ -6,4 +6,4 @@ pyvenv.cfg
 share/
 __pycache__/
 migrations/
-
+db.sqlite3/
