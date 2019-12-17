@@ -11,7 +11,7 @@ def uploadImage(instance, filename):
 class UpdatesQuerySet(models.QuerySet):
 
     def serialize(self):
-        list_values = list(self.values("user", "content", "image"))
+        list_values = list(self.values("user", "content", "image", "id"))
         return json.dumps(list_values)
 
 
@@ -35,7 +35,11 @@ class Updates(models.Model):
 
 
     def serialize(self):
-        json_data = serialize("json", [self], fields=("user", "content"))
-        struct = json.loads(json_data) # Turns it into list of dict
-        print(struct)
-        return json.dumps(struct[0]["fields"])
+        data = {
+            "id": self.id,
+            "user": self.user.username,
+            "content": self.content,
+            "image": str(self.image)
+        }
+        json_data = data
+        return json.dumps(json_data)
