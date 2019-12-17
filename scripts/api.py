@@ -5,20 +5,22 @@ BASE_URL = "http://127.0.0.1:8000/"
 ENDPOINT = "api/updates"
 
 
-def get_request():
-    new_data = {
-        "id": id
-    }
+def get_request(id=None):
+    new_data = json.dumps({})
+    if id is not None:
+        new_data = {
+            "id": id
+        }
     res = requests.get(BASE_URL + ENDPOINT + "/", data = json.dumps(new_data))
-    print(res)
     status_code = res.status_code
     if status_code == requests.codes.ok:
-        print("Not a good response")
+        print("A good response ?")
         data = res.json()
         print(data)
-    print(res.text)
+        print(res.status_code)
+    # print(res.text)
 
-print(get_request())
+get_request()
 
 
 def post_request():

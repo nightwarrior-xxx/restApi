@@ -31,21 +31,24 @@ class UpdatesApiListView(HttpResponseMixins, CSRFExemptMixins, View):
             return None
 
     def get(self, request, *args, **kwargs):
-        
-        data = json.loads(request.body)
-        passed_id = data.get("id", None)
-        if passed_id is not None:
-            obj = self.get_object(id=passed_id)
-            if obj is None:
-                json_data = json.dumps({"message": "Update not found !!!"})
-                return self.render_to_response(json_data, status=404)
-            json_data = obj.serialize()
-            return self.render_to_response(json_data)
 
-        else:
-            qs = self.get_queryset()
-            json_data = qs.serialize()
-            return self.render_to_response(json_data)
+        # data = json.loads(request.body)
+        # if data == "{}":
+        #     passed_id = None
+        # else:
+        #     passed_id = data.get("id")
+        # if passed_id is not None:
+        #     obj = self.get_object(id=passed_id)
+        #     if obj is None:
+        #         json_data = json.dumps({"message": "Update not found !!!"})
+        #         return self.render_to_response(json_data, status=404)
+        #     json_data = obj.serialize()
+        #     return self.render_to_response(json_data)
+
+        # else:
+        qs = self.get_queryset()
+        json_data = qs.serialize()
+        return self.render_to_response(json_data)
 
     def post(self, request, *args, **kwargs):
         valid_json = is_json(request.body)
