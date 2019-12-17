@@ -6,22 +6,42 @@ ENDPOINT = "api/updates"
 
 
 def get_request():
-    res = requests.get(BASE_URL + ENDPOINT + "/")
+    new_data = {
+        "id": id
+    }
+    res = requests.get(BASE_URL + ENDPOINT + "/", data = json.dumps(new_data))
     print(res)
     status_code = res.status_code
-    if status_code != 200:
+    if status_code == requests.codes.ok:
         print("Not a good response")
-    data = res.json()
-    print(data)
+        data = res.json()
+        print(data)
+    print(res.text)
+
+print(get_request())
 
 
 def post_request():
     new_data = {
         "user": "1",
-        "content": ""
+        "content": "DRF is fucking awesome !!!!"
     }
+    res = requests.post(BASE_URL + ENDPOINT + "/", data=json.dumps(new_data))
+    print(res.status_code)
+    print(res.headers)
+    if res.status_code == requests.codes.ok:
+        return(res.json())
+    return(res.text)
 
-    res = requests.delete(BASE_URL + ENDPOINT + "/", data=new_data)
+# print(post_request())
+
+
+def put_request():
+    new_data = {
+        "id": '8',
+        "content": "This is my new DRF put method"
+    }
+    res = requests.put(BASE_URL + ENDPOINT + "/", data=json.dumps(new_data))
     print(res.status_code)
     print(res.headers)
     if res.status_code == requests.codes.ok:
@@ -29,5 +49,15 @@ def post_request():
     return(res.text)
 
 
-if __name__ == '__main__':
-    print(post_request())
+# print(put_request())
+
+
+def delete_request():
+    res = requests.delete(BASE_URL + ENDPOINT + '/5/')
+    print(res.headers)
+    print(res.headers)
+    if res.status_code == requests.codes.ok:
+        return(res.json())
+    return(res.text)
+
+# print(delete_request())

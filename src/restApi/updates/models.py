@@ -37,7 +37,7 @@ class Updates(models.Model):
     def serialize(self):
         data = {
             "id": self.id,
-            "user": self.user.username,
+            "user": self.user.id,
             "content": self.content,
             "image": str(self.image)
         }
