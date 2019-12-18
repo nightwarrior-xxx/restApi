@@ -10,7 +10,8 @@ from updates.views import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/updates/', include("updates.api.urls", namespace="api")),
+    path('api/updates/', include("updates.api.urls", namespace="updatesApi")),
+    path('api/status/', include("status.api.urls", namespace="statusApi")),
     # path('cbv/', JsonCBV.as_view()),
     # path('cbv2/', JsonCBV2.as_view()),
     # path('cbv/serialized/list', SerializedListView.as_view()),

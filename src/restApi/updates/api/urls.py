@@ -4,7 +4,7 @@ from .views import (
     UpdatesApiDetailView
 )
 
-app_name = 'api'
+app_name = 'updatesApi'
 
 urlpatterns = [
     path("", UpdatesApiListView.as_view(), name='apiUpdateList'),

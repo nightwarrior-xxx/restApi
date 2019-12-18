@@ -19,7 +19,7 @@ class StatusModelManager(models.Manager):
 
 class StatusModel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    content = models.TextArea(null=True, blank=True)
+    content = models.TextField(null=True, blank=True)
     image = models.ImageField(upload_to=uploadImageTo, null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -28,3 +28,8 @@ class StatusModel(models.Model):
 
     def __str__(self):
         return self.content[:40]
+
+
+    class Meta:
+        verbose_name = "Status Model"
+        verbose_name_plural = "Status Models"
