@@ -1,5 +1,10 @@
 import os
 
+
+# JWT Permisions
+from .rest_api_conf.main import REST_FRAMEWORK, JWT_AUTH
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -29,6 +34,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     # Local
+    'accounts',
     'status',
     'updates',
 ]
@@ -112,3 +118,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(os.path.dirname(
+    BASE_DIR), 'static_root', 'media_root')
