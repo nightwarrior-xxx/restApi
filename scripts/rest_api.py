@@ -2,37 +2,40 @@ import requests
 import json
 
 BASE_ENDPOINT = "http://127.0.0.1:8000/api/status/"
-BASE_AUTH_ENDPOINT = "http://127.0.0.1:8000/api/auth/jwt/"
+BASE_AUTH_ENDPOINT = "http://127.0.0.1:8000/api/auth/"
 REFRESH_AUTH_ENDPOINT = BASE_AUTH_ENDPOINT + "refresh/"
 
 img_path = "/home/nightwarrior-xxx/Downloads/osdhacktelegram.png"
 data = {
-    "username": "restapi",
-    "password": "restapi@123"
+    "username": "test3",
+    "email": "test3@gmail.com",
+    "password": "test2@123",
+    "password2": "test2@123"
 }
 headers = {
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    # "Authentication": "JWT " + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6InJlc3RhcGkiLCJleHAiOjE1NzY3OTAyOTcsImVtYWlsIjoicmVzdGFwaUBnbWFpbC5jb20iLCJvcmlnX2lhdCI6MTU3Njc4OTk5N30.HXKwExZ3DCDwirFHa-nlktEw3xkc-8cKtsKjEwakflk"
 }
 
-res = requests.post(BASE_AUTH_ENDPOINT, data=json.dumps(data), headers=headers)
-auth_token = res.json()["token"]
+res = requests.post(BASE_AUTH_ENDPOINT +"register/", data=json.dumps(data), headers=headers)
+auth_token = res.json()
 print(auth_token)
 
-header_new = {
-    "Content-Type": "application/json",
-    "Authorization": "JWT " + auth_token,
-}
+# header_new = {
+#     "Content-Type": "application/json",
+#     "Authorization": "JWT " + auth_token,
+# }
 
-with open(img_path, 'rb') as image:
-    file_data = {
-        "image": image
-    }
-    data = {
-    "content": "This is JWT updated data"
-    }
-    # req = requests.post(BASE_ENDPOINT, data=data, headers=header_new, files=file_data)
-    req = requests.put(BASE_ENDPOINT + str(11) + "/", data=json.dumps(data), headers=header_new)#, files=file_data)
-    print(req.text)
+# with open(img_path, 'rb') as image:
+#     file_data = {
+#         "image": image
+#     }
+#     data = {
+#     "content": "This is JWT updated data"
+#     }
+#     # req = requests.post(BASE_ENDPOINT, data=data, headers=header_new, files=file_data)
+#     req = requests.put(BASE_ENDPOINT + str(11) + "/", data=json.dumps(data), headers=header_new)#, files=file_data)
+#     print(req.text)
 
 
 

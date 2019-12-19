@@ -11,8 +11,7 @@ from updates.views import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/auth/jwt/', obtain_jwt_token, name="jwtToken"),
-    path('api/auth/jwt/refresh/', refresh_jwt_token, name="jwtRefreshToken"),
+    path('api/auth/', include("accounts.api.urls", namespace="accountsApi")),
     path('api/updates/', include("updates.api.urls", namespace="updatesApi")),
     path('api/status/', include("status.api.urls", namespace="statusApi")),
 ]
