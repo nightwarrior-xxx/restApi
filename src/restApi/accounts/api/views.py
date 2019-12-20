@@ -10,7 +10,7 @@ from rest_framework import permissions, generics
 from rest_framework_jwt.settings import api_settings
 
 from .serializers import AccountSerializer
-
+from .permission import AnonymousPermission
 
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
@@ -21,7 +21,7 @@ jwt_response_payload_handler = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER
 
 class AuthAPIView(APIView):
 
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [AnonymousPermission]
 
     def post(self, request, *args, **kwargs):
         # print(request.user)
@@ -45,13 +45,12 @@ class AuthAPIView(APIView):
         return Response({"detail": "Invalid credentials"})
 
 class RegisterAPIView(generics.CreateAPIView):
-    permission_classes = [permissions.AllowAny]
     serializer_class = AccountSerializer
     queryset = User.objects.all()
+    permission_classes = [AnonymousPermission]
 
     def get_serializer_context(self, *args, **kwargs):
         return {"request": self.request}
-
 
 
 # class RegisterAPIView(APIView):

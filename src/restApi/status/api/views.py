@@ -8,6 +8,8 @@ from rest_framework.authentication import SessionAuthentication
 from status.models import StatusModel
 from status.api.serializers import StatusSerializer
 
+from accounts.api.permission import IsOwnerOrReadOnly
+
 from django.shortcuts import get_object_or_404
 from .utils import is_json
 
@@ -19,7 +21,7 @@ Class Based views for Create and List + Update Delete and Retrieve.
 
 class StatusApiView(mixins.CreateModelMixin, generics.ListAPIView):
 
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     # authentication_classes = [SessionAuthentication]
     serializer_class = StatusSerializer
 
@@ -41,7 +43,7 @@ class StatusApiView(mixins.CreateModelMixin, generics.ListAPIView):
 class StatusApiDetailView(mixins.DestroyModelMixin, mixins.UpdateModelMixin, generics.RetrieveAPIView):
 
     # authentication_classes = []
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     serializer_class = StatusSerializer
     queryset = StatusModel.objects.all()
 
