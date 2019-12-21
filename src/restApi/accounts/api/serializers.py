@@ -12,19 +12,19 @@ jwt_response_payload_handler = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER
 expiration_time = api_settings.JWT_REFRESH_EXPIRATION_DELTA
 
 
-class UserPublicData(serializers.ModelSerializer):
-    url = serializers.SerializerMethodField(read_only=True)
+class UserPublicSerializer(serializers.ModelSerializer):
+    uri = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = User
         fields = [
             'id',
             'username',
-            'url'
+            'uri'
         ]
 
-    def get_url(self, obj):
-        return "api/status/{id}".format(id=obj.id)
+    def get_uri(self, obj):
+        return "/api/users/{id}".format(id=obj.id)
 
 
 class AccountSerializer(serializers.ModelSerializer):

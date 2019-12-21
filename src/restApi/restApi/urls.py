@@ -12,6 +12,7 @@ from updates.views import (
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/auth/', include("accounts.api.urls", namespace="accountsApi")),
+    path('api/user/', include("accounts.api.user.urls", namespace="userApi")),
     path('api/updates/', include("updates.api.urls", namespace="updatesApi")),
     path('api/status/', include("status.api.urls", namespace="statusApi")),
 ]
