@@ -21,7 +21,7 @@ Class Based views for Create and List + Update Delete and Retrieve.
 
 class StatusApiView(mixins.CreateModelMixin, generics.ListAPIView):
 
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
     # authentication_classes = [SessionAuthentication]
     serializer_class = StatusSerializer
 
@@ -43,7 +43,7 @@ class StatusApiView(mixins.CreateModelMixin, generics.ListAPIView):
 class StatusApiDetailView(mixins.DestroyModelMixin, mixins.UpdateModelMixin, generics.RetrieveAPIView):
 
     # authentication_classes = []
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = StatusSerializer
     queryset = StatusModel.objects.all()
 
