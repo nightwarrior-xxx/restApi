@@ -28,5 +28,25 @@ class UserAPITest(APITestCase):
             "password2": "test5@123"
         }
         response = self.client.post(url, data, format="json")
-        print(response.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_login_user(self):
+        url = reverse("accountsApi:apiRegister")
+        data = {
+            "username": "test5",
+            "email": "test5@gmail.com",
+            "password": "test5@123",
+            "password2": "test5@123"
+        }
+        response = self.client.post(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        url = reverse("accountsApi:authView")
+        data = {
+            "username": "test5",
+            "email": "test5@gmail.com",
+            "password": "test5@123"
+        }
+        response = self.client.post(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertGreater(len(response.data.get("token", 0)), 0)
