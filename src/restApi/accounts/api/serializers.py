@@ -12,6 +12,21 @@ jwt_response_payload_handler = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER
 expiration_time = api_settings.JWT_REFRESH_EXPIRATION_DELTA
 
 
+class UserPublicData(serializers.ModelSerializer):
+    url = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = User
+        fields = [
+            'id',
+            'username',
+            'url'
+        ]
+
+    def get_url(self, obj):
+        return "api/status/{id}".format(id=obj.id)
+
+
 class AccountSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
         style={"input_type": "password"}, write_only=True)
@@ -19,7 +34,8 @@ class AccountSerializer(serializers.ModelSerializer):
         style={"input_type": "password"}, write_only=True)
     token = serializers.SerializerMethodField(read_only=True)
     expires = serializers.SerializerMethodField(read_only=True)
-    # response = serializers.SerializerMethodField(read_only=True)
+    response = serializers.SerializerMethodField(read_only=True)
+    message = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = User
@@ -30,13 +46,18 @@ class AccountSerializer(serializers.ModelSerializer):
             "password2",
             "token",
             "expires",
-            # "response"
+            "response",
+            "message"
+
         ]
 
         extra_kwargs = {"password": {"write_only": True}}
 
+    def get_message(self, data):
+        return "Thanks for registering. Please verify your email to confirm your registration."
+
     def get_token(self, obj):
-        user=obj
+        user = obj
         payload = jwt_payload_handler(user)
         token = jwt_encode_handler(payload)
         return token
@@ -44,15 +65,14 @@ class AccountSerializer(serializers.ModelSerializer):
     def get_expires(self, data):
         return timezone.now() + expiration_time
 
-    # def get_response(self, data):
-    #     user = data
-    #     payload = jwt_payload_handler(user)
-    #     token = jwt_encode_handler(payload)
-    #     context = self.context
-    #     request = context["request"]
-    #     print(request.user.is_authenticated)
-    #     response = jwt_response_payload_handler(token, user, request=request)
-    #     return response
+    def get_response(self, data):
+        user = data
+        payload = jwt_payload_handler(user)
+        token = jwt_encode_handler(payload)
+        context = self.context
+        request = context["request"]
+        response = jwt_response_payload_handler(token, user, request=request)
+        return response
 
     def validate_username(self, data):
         qs = User.objects.filter(username__iexact=data)
