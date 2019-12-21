@@ -10,7 +10,8 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticatedOrReadOnly'
-    ]
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'restApi.rest_api_conf.pagination.GlobalPaginationClass',
 }
 
 JWT_AUTH = {
