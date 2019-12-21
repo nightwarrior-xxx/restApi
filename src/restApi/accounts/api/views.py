@@ -27,6 +27,7 @@ class AuthAPIView(APIView):
         if request.user.is_authenticated:
             return Response({"detail": "User is already authenticated"}, status=400)
         data = request.data
+        print(data)
         username = data.get("username")
         password = data.get("password")
         qs = User.objects.filter(
